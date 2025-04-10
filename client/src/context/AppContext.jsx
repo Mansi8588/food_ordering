@@ -28,7 +28,7 @@ const fetchProducts= async () =>{
 }
 
 
-const addToCart=()=>{
+const addToCart=(itemId)=>{
     let cartData= structuredClone(cartItems);
 
     if(cartData[itemId]){
@@ -50,19 +50,18 @@ const updateCartItem= (itemId,quantity)=>{
     toast.success("Cart updated")
 }
 
-const removeFromCart=(itemId)=>{
-
-let cartData= structuredClone(cartItems);
-if(cartData[itemId] ){
-    cartData[itemId]-=1;
+const removeFromCart = (itemId) => {
+    let cartData = structuredClone(cartItems);
+    if (cartData[itemId]) {
+        cartData[itemId] -= 1;
+        if (cartData[itemId] <= 0) {
+            delete cartData[itemId];
+        }
+    }
+    setcartItems(cartData); // <== This is essential!
+    toast.success("Removed from cart");
 }
-if(cartItem[itemId]==0){
-    delete cartData[itemId];
-}
 
-
-
-}
 
 
 useEffect(()=>{
