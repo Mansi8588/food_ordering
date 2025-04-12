@@ -20,6 +20,7 @@ export const AppContextProvider=({children})=>{
 const [products, setProducts]= useState([])
 
 const [cartItems, setcartItems]= useState({})
+const [searchQuery, setSearchQuery]= useState({})
 
 
 
@@ -73,7 +74,7 @@ fetchProducts()
 },[])
 
     const value={navigate,user,setUser,setIsSeller,isSeller,showUserLogin,setShowUserLogin,products,currency,
-        addToCart,updateCartItem,removeFromCart,cartItems
+        addToCart,updateCartItem,removeFromCart,cartItems,searchQuery, setSearchQuery
     }
 
     return(
