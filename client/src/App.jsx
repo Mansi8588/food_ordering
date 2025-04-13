@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
+import MyOrders from './pages/MyOrders'
 import { AddAddress } from './pages/AddAddress'
 import {Route,Routes, useLocation} from 'react-router-dom'
 import Home from './pages/Home'
@@ -33,6 +34,7 @@ const {showUserLogin} = useAppContext()
   <Route path='/products/:category/:id' element= {<ProductDetails/>} />
   <Route path='/cart' element= {<Cart/>} />
   <Route path='/add-address' element= {<AddAddress/>} />
+  <Route path='/my-orders' element= {<MyOrders/>} />
 </Routes>
 
       </div>
