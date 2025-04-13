@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-
+import { AddAddress } from './pages/AddAddress'
 import {Route,Routes, useLocation} from 'react-router-dom'
 import Home from './pages/Home'
 import {Toaster} from "react-hot-toast";
@@ -32,6 +32,7 @@ const {showUserLogin} = useAppContext()
   <Route path='/products/:category' element= {<ProductCategory/>} />
   <Route path='/products/:category/:id' element= {<ProductDetails/>} />
   <Route path='/cart' element= {<Cart/>} />
+  <Route path='/add-address' element= {<AddAddress/>} />
 </Routes>
 
       </div>
