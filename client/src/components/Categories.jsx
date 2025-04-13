@@ -7,7 +7,7 @@ const Categories = () => {
 
 
 
-const {navigate} = useAppContext
+const {navigate} = useAppContext();
 
 
 
