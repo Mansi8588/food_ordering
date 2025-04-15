@@ -1,0 +1,71 @@
+import Product from "../models/Product";
+
+//Add product: /api/product/id
+export const addProduct=async()=>{
+
+try {
+    
+let productData= JSON.parse(req.body.productData)
+
+const images= req.files
+
+let imagesUrl= await Promise.all(
+    images.map(async(item)=>{
+        let result= await connectCloudinary.uploader.upload(item.path,
+            {resource_type:'image'});
+            return result.secure_url
+    })
+)
+
+
+await Product.create({...productData, image:imagesUrl})
+
+res.json({success:true, message:"Product Added"})
+} catch (error) {
+    
+console.log(error.message)
+
+res.json({success:false, message:error.message})
+}
+
+
+}
+
+//Get product: /api/product/id
+export const productlist=async(req,res)=>{
+
+try {
+    const products= await Product.find({})
+    res.json({success: true, products})
+    
+} catch (error) {
+    
+
+    console.log(error.message)
+res.json({success:false, message:error.message})
+}
+
+
+
+
+
+}
+
+
+//Get single Product : /api/product/id
+export const productList= async(req,res)=>{
+
+try {
+    const {id}= req.body
+    const product=await Product.findById(id)
+    res.json({success:true,product})
+} catch (error) {
+    console.log(error.message)
+
+res.json({success:false, message:error.message})
+}
+
+
+}
+
+//Change product instock : /api/product/id
