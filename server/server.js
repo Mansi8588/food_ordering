@@ -5,6 +5,9 @@ import connectDB from "./configs/db.js";
 import 'dotenv/config';
 import userRouter from "./routes/userRoute.js";
 import connectCloudinary from "./configs/cloudinary.js";
+import productRouter from "./routes/productRoute.js";
+import sellerRouter from "./routes/sellerRoute.js";
+import cartRouter from "./routes/cartRoute.js";
 
 
 const app= express();
@@ -29,6 +32,8 @@ app.get('/',(req,res)=>res.send("API is working"));
 
 app.use('/api/user',userRouter)
 app.use('/api/seller',sellerRouter)
+app.use('/api/product',productRouter)
+app.use('/api/cart',cartRouter)
 
 
 
