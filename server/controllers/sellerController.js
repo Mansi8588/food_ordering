@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 export const sellerLogin=async(req,res)=>{
   try {
-    const {email,password}= req.bosy();
+    const {email,password}= req.body;
 
     if(password === process.env.SELLER_PASSWORD && email=== process.env.
         SELLER_EMAIL){

@@ -1,6 +1,7 @@
-import Product from "../models/Product";
+import {v2 as cloudinary} from "cloudinary"
+import Product from "../models/Product.js";
 
-//Add product: /api/product/id
+//Add product: /api/product/add
 export const addProduct=async()=>{
 
 try {
@@ -11,7 +12,7 @@ const images= req.files
 
 let imagesUrl= await Promise.all(
     images.map(async(item)=>{
-        let result= await connectCloudinary.uploader.upload(item.path,
+        let result= await cloudinary.uploader.upload(item.path,
             {resource_type:'image'});
             return result.secure_url
     })
@@ -31,29 +32,22 @@ res.json({success:false, message:error.message})
 
 }
 
-//Get product: /api/product/id
-export const productlist=async(req,res)=>{
+//Get product: /api/product/list
+export const productList=async(req,res)=>{
 
-try {
-    const products= await Product.find({})
-    res.json({success: true, products})
-    
-} catch (error) {
-    
-
-    console.log(error.message)
-res.json({success:false, message:error.message})
-}
-
-
-
-
-
+    try {
+        const products= await Product.find({})
+        res.json({success: true, products})
+        
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false, message:error.message})
+    }
 }
 
 
 //Get single Product : /api/product/id
-export const productList= async(req,res)=>{
+export const productById= async(req,res)=>{
 
 try {
     const {id}= req.body
