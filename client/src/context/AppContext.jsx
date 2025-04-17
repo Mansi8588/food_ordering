@@ -43,7 +43,16 @@ const fetchSeller = async ()=>{
 }
 
 const fetchProducts= async () =>{
-    setProducts(dummyProducts)
+   try {
+        const { data } = await axios.get('/api/product/list')
+        if(data.success){
+            setProducts(data.products)
+        }else{
+            toast.error(data.message)
+        }
+   } catch (error) {
+        toast.error(error.message)
+   }
 }
 
 
@@ -110,7 +119,7 @@ useEffect(()=>{
     const value={navigate,user,setUser,setIsSeller,isSeller,showUserLogin,
         setShowUserLogin,products,currency,addToCart,updateCartItem,
         removeFromCart,cartItems,searchQuery, setSearchQuery,
-        getCartCount, getCartAmount, axios
+        getCartCount, getCartAmount, axios, fetchProducts
     }
 
     return(
