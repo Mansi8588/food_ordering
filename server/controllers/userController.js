@@ -79,9 +79,9 @@ export const login = async (req, res) => {
 
 export const isAuth = async (req, res) => {
   try {
-    const userId = req.userId; // ✅ now using from middleware
+    const userId = req.userId;
     const user = await User.findById(userId).select("-password");
-
+    
     if (!user) {
       return res.json({ success: false, message: 'User not found' });
     }

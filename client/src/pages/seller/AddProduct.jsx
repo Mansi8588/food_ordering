@@ -83,7 +83,7 @@ const AddProduct = () => {
                 </div>
                 <div className="w-full flex flex-col gap-1">
                     <label className="text-base font-medium" htmlFor="category">Category</label>
-                    <select 
+                    {/* <select 
                     onChange={(e)=>setName(e.target.value)} value={name}
 
                      id="category" className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40">
@@ -91,6 +91,14 @@ const AddProduct = () => {
                        {categories.map((item,index)=>(
                           <option key={index} value={item.path}>{item.path}</option>
                        ))}
+                    </select> */}
+                    <select
+                        onChange={(e)=>setCategory(e.target.value)} value={category}
+                        id="category" className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40">
+                        <option value="">Select Category</option>
+                        {categories.map((item,index)=>(
+                            <option key={index} value={item.path}>{item.path}</option>
+                        ))}
                     </select>
                 </div>
                 <div className="flex items-center gap-5 flex-wrap">
