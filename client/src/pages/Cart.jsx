@@ -4,11 +4,11 @@ import { assets, dummyAddress } from "../assets/assets";
 
 const Cart = () => {
     const {products,currency, cartItems, removeFromCart, getCartCount, 
-        updateCartItem, navigate, getCartAmount } = useAppContext()
+        updateCartItem, navigate, getCartAmount, axios, user } = useAppContext()
     const [cartArray, setCartArray] = useState([])
-    const [addresses, setAddresses] = useState(dummyAddress)
+    const [addresses, setAddresses] = useState([])
     const [showAddress, setShowAddress] = useState(false)
-    const [selectedAddress, setSelectedAddress] = useState(dummyAddress[0])
+    const [selectedAddress, setSelectedAddress] = useState(null)
     const [paymentOption, setPaymentOption] = useState("COD")
 
     const getcart = ()=>{
@@ -21,6 +21,22 @@ const Cart = () => {
         setCartArray(tempArray)
     }
 
+    const getUserAddress = async ()=>{
+        try {
+            const {data} = await axios.get('api/address/get');
+            if(data.success){
+                setAddresses(data.addresses)
+                if(data.addresses.length > 0){
+                    setSelectedAddress(data.addresses[0])
+                }
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(data.message)
+        }
+    }
+
     const placeOrder = async ()=>{
 
     }
@@ -30,6 +46,12 @@ const Cart = () => {
             getcart()
         }
     },[products, cartItems])
+
+    useEffect(()=>{
+        if(user){
+            getUserAddress()
+        }
+    },[user])
 
     return products.length>0 && cartItems ? (
         <div className="flex flex-col md:flex-row mt-16">
@@ -100,9 +122,7 @@ const Cart = () => {
                 <div className="mb-6">
                     <p className="text-sm font-medium uppercase">Delivery Address</p>
                     <div className="relative flex justify-between items-start mt-2">
-                        <p className="text-gray-500">{selectedAddress ? ` $
-                        {selectedAddress.street}, ${selectedAddress.city}, $
-                        {selectedAddress.state}, ${selectedAddress.country}` : "No address found"}</p>
+                        <p className="text-gray-500">{selectedAddress ? ` ${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state}, ${selectedAddress.country}` : "No address found"}</p>
                         <button onClick={() => setShowAddress(!showAddress)} className="text-primary hover:underline cursor-pointer">
                             Change
                         </button>
