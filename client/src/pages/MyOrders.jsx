@@ -4,17 +4,28 @@ import { dummyOrders } from '../assets/assets'
 
 const MyOrders = () => {
     const [myOrders,setMyOrders] = useState([])
-    const {currency}=useAppContext()
+    const {currency, axios, user}=useAppContext()
 
-    const fetchMyOrder=async()=>{
-        setMyOrders(dummyOrders)
+    const fetchMyOrders=async()=>{
+        try{
+            const userId = user._id;
+            const {data} = await axios.get('/api/order/user',{ params: {userId } })
+    
+            if(data.success){
+                setMyOrders(data.orders)
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 
     useEffect(()=>{
-        fetchMyOrder()
+        if(user){
+            fetchMyOrders()
+        }
+    },[user])
 
-    },[])
      return (
     <div className='mt-16 pb-16'>
         <div className='flex flex-col items-end w-max mb-8 '>
@@ -24,7 +35,7 @@ const MyOrders = () => {
         </div>
         {myOrders.map((order,index)=>(
            <div key={index} className='border border-gray-300 rounded-lg mb-10 p-4 py-5 max-w-4xl'>
-            <p>
+            <p className="flex justify-between w-full">
                 <span>OrderId:{order._id}</span>
                 <span>Payment:{order.paymentType}</span>
                 <span>Total Amount:{currency}{order.amount}</span>
@@ -62,4 +73,4 @@ const MyOrders = () => {
   )
 }
 
-export default MyOrders
+export default MyOrders;

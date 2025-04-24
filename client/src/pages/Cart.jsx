@@ -51,7 +51,7 @@ const Cart = () => {
                     items: cartArray.map(item=> ({product: item._id, quantity: item.quantity})),
                     address: selectedAddress._id
                 })
-
+                
                 if(data.success){
                     toast.success(data.message)
                     setCartItems({})

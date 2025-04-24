@@ -134,7 +134,8 @@ useEffect(()=>{
     useEffect(()=>{
         const updateCart = async () =>{
             try {
-                const { data } = await axios.post('/api/cart/update',{cartItems})
+                const userId = user._id;
+                const { data } = await axios.post('/api/cart/update',{userId, cartItems})
                 if(!data.success){
                     toast.error(data.message)
                 }
