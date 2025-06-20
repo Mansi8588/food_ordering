@@ -43,17 +43,21 @@ const fetchSeller = async ()=>{
 }
 
 //Fetch User Auth Status , User Data and Cart Items
-const fetchUser = async ()=>{
+const fetchUser = async () => {
     try {
-        const {data} = await axios.get('api/user/is-auth');
-        if(data.success){
-            setUser(data.user)
-            setCartItems(data.user.cartItems)
+        const { data } = await axios.get('/api/user/is-auth');
+        if (data.success) {
+            setUser(data.user);  // ✅ this must contain _id
+            setCartItems(data.user.cartItems || {});
+        } else {
+            setUser(null);
         }
     } catch (error) {
-        setUser(null)
+        setUser(null);
     }
 }
+
+
 
 const fetchProducts= async () =>{
    try {
