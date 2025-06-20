@@ -39,42 +39,52 @@ const Cart = () => {
     }
 
    const placeOrder = async () => {
-    try {
-        // Check if user is loaded
-        if (!user || !user._id) {
-            toast.error("Please log in to place an order.");
-            return;
-        }
-
-        // Check if address is selected
-        if (!selectedAddress) {
-            toast.error("Please select an address.");
-            return;
-        }
-
-        const items = cartArray.map(item => ({
-            product: item._id,
-            quantity: item.quantity
-        }));
-
-        const { data } = await axios.post('/api/order/cod', {
-            userId: user._id,
-            items,
-            address: selectedAddress._id
-        });
-
-        if (data.success) {
-            toast.success(data.message);
-            setCartItems({});
-            navigate('/my-orders');
-        } else {
-            toast.error(data.message);
-        }
-
-    } catch (error) {
-        toast.error(error.message || "Order failed. Try again.");
+  try {
+    if (!selectedAddress) {
+      return toast.error("Please select an address");
     }
-}
+
+    if (paymentOption === "COD") {
+      console.log("📦 Placing COD order with userId:", user?._id);
+      const { data } = await axios.post('/api/order/cod', {
+        userId: user._id,
+        items: cartArray.map(item => ({ product: item._id, quantity: item.quantity })),
+        address: selectedAddress._id
+      });
+
+      console.log("✅ COD response:", data);
+
+      if (data.success) {
+        toast.success(data.message);
+        setCartItems({});
+        navigate('/my-orders');
+      } else {
+        toast.error(data.message);
+      }
+
+    } else {
+      // Stripe
+      console.log("💳 Placing Stripe order with userId:", user?._id);
+
+      const { data } = await axios.post('/api/order/stripe', {
+        userId: user._id,
+        items: cartArray.map(item => ({ product: item._id, quantity: item.quantity })),
+        address: selectedAddress._id
+      });
+
+      console.log("🔁 Stripe checkout response:", data);
+
+      if (data.success) {
+        window.location.replace(data.url);
+      } else {
+        toast.error(data.message);
+      }
+    }
+  } catch (error) {
+    console.log("❌ Order placement error:", error);
+    toast.error(error.message);
+  }
+};
 
     useEffect(()=>{
         if(products.length>0 && cartItems){
