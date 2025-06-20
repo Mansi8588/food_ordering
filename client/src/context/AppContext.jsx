@@ -47,7 +47,7 @@ const fetchUser = async () => {
     try {
         const { data } = await axios.get('/api/user/is-auth');
         if (data.success) {
-            setUser(data.user);  // ✅ this must contain _id
+            setUser(data.user);  
             setCartItems(data.user.cartItems || {});
         } else {
             setUser(null);
